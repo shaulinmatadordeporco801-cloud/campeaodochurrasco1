@@ -97,17 +97,17 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
             is_active = (cat.id == first_cat_id)
             btn_class = "bg-brand-blue text-white shadow-[0_5px_15px_rgba(0,144,255,0.2)]" if is_active else "text-dark-text/40 dark:text-neutral-400 hover:bg-brand-blue/10 hover:text-brand-blue"
             
-            # Pyramid layout widths for mobile (4 buttons: 2-1-1)
-            # Row 1: Espetinho & Bebidas | Row 2: Acompanhamentos | Row 3: Drinks
+            # Pyramid layout using CSS GRID for absolute control on mobile
+            # Row 1: Espetinho & Bebidas (1 col each) | Row 2 & 3: Wide buttons (2 cols)
             if cat.name in ["Acompanhamentos", "Drinks"]:
-                mobile_width = "w-full md:w-auto"
+                grid_class = "col-span-2 md:w-auto"
             else:
-                mobile_width = "w-[calc(50%-6px)] md:w-auto"
+                grid_class = "col-span-1 md:w-auto"
                 
             tabs_btns_html += f"""
             <button onclick="switchTab({cat.id})" 
                     id="tab-btn-{cat.id}"
-                    class="tab-btn {mobile_width} text-[10px] md:text-xs font-bold uppercase tracking-wider px-2 md:px-8 py-3 md:py-4 rounded-lg transition-all duration-300 active:scale-90 {btn_class}">
+                    class="tab-btn {grid_class} text-[10px] md:text-xs font-bold uppercase tracking-wider px-2 md:px-8 py-3 md:py-4 rounded-lg transition-all duration-300 active:scale-90 {btn_class}">
               {cat.name}
             </button>
             """
@@ -207,8 +207,8 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Campeão do Churrasco | A Arte da Brasa em Mogi Mirim</title>
-        <!-- Version: 1.0.3 - Pyramid Build -->
-        <link rel="icon" type="image/png" href="/static/images/Favicon.png?v=1.0.3">
+        <!-- Version: 1.0.4 - Grid Pyramid Build -->
+        <link rel="icon" type="image/png" href="/static/images/Favicon.png?v=1.0.4">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -360,7 +360,7 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
                    <h2 class="font-bebas text-5xl md:text-8xl mb-10 text-dark-text dark:text-neutral-100 uppercase">Saboreie momentos em <span class="text-brand-blue">família.</span></h2>
-                    <div class="flex flex-wrap justify-center gap-2 bg-brand-blue/5 p-2 rounded-xl max-w-4xl mx-auto mb-12">
+                    <div class="grid grid-cols-2 md:flex md:flex-wrap justify-center gap-2 bg-brand-blue/5 p-2 rounded-xl max-w-4xl mx-auto mb-12">
                        {tabs_btns_html}
                     </div>
                 </div>
