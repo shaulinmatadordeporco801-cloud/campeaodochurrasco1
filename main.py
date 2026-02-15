@@ -1,12 +1,18 @@
-# Redeploy trigger: 2026-02-15 03:07
+# Redeploy trigger: 2026-02-15 03:15
 from fastapi import FastAPI, Depends, Request
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 from models import Base, Category, Product
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+# Create tables with error catching
+print("🔍 Verificando conexão com o banco de dados...")
+try:
+    Base.metadata.create_all(bind=engine)
+    print("✅ Banco de dados conectado e tabelas verificadas.")
+except Exception as e:
+    print(f"❌ ERRO CRÍTICO NA CONEXÃO: {e}")
+    # We continue to let the app start so we can see the error in the logs
 
 from fastapi.staticfiles import StaticFiles
 
