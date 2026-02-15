@@ -95,10 +95,16 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
             cat = item['category']
             is_active = (cat.id == first_cat_id)
             btn_class = "bg-brand-blue text-white shadow-[0_5px_15px_rgba(0,144,255,0.2)]" if is_active else "text-dark-text/40 dark:text-neutral-400 hover:bg-brand-blue/10 hover:text-brand-blue"
+            
+            # Pyramid layout widths for mobile
+            mobile_width = "w-[47%] md:w-auto"
+            if cat.name in ["Acompanhamentos", "Drinks"]:
+                mobile_width = "w-[96%] md:w-auto"
+                
             tabs_btns_html += f"""
             <button onclick="switchTab({cat.id})" 
                     id="tab-btn-{cat.id}"
-                    class="tab-btn flex-1 min-w-[80px] text-[9px] md:text-xs font-bold uppercase tracking-wider px-2 md:px-8 py-3 md:py-4 rounded-lg transition-all duration-300 active:scale-90 {btn_class}">
+                    class="tab-btn {mobile_width} text-[10px] md:text-xs font-bold uppercase tracking-wider px-2 md:px-8 py-3 md:py-4 rounded-lg transition-all duration-300 active:scale-90 {btn_class}">
               {cat.name}
             </button>
             """
@@ -350,7 +356,7 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
                    <h2 class="font-bebas text-5xl md:text-8xl mb-10 text-dark-text dark:text-neutral-100 uppercase">Saboreie momentos em <span class="text-brand-blue">família.</span></h2>
-                    <div class="flex flex-nowrap overflow-x-auto no-scrollbar justify-start md:justify-center gap-2 bg-brand-blue/5 p-2 rounded-xl max-w-4xl mx-auto mb-12 scroll-smooth">
+                    <div class="flex flex-wrap justify-center gap-2 bg-brand-blue/5 p-2 rounded-xl max-w-4xl mx-auto mb-12">
                        {tabs_btns_html}
                     </div>
                 </div>
