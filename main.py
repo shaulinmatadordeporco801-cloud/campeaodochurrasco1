@@ -192,8 +192,7 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
     logo_md = render_logo(size="md")
     logo_sm = render_logo(size="sm")
 
-    html_content = f"""
-    <!DOCTYPE html>
+    html_content = f"""<!DOCTYPE html>
     <html lang="pt-BR" class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
@@ -456,4 +455,6 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
 
 class HTMLContent(HTMLResponse):
     def __init__(self, content: str, status_code: int = 200):
-        super().__init__(content=content, status_code=status_code)
+        # Limpeza agressiva de qualquer espaço ou caractere invisível no início do conteúdo
+        clean_content = content.lstrip()
+        super().__init__(content=clean_content, status_code=status_code)
