@@ -76,6 +76,7 @@ def read_root(request: Request, db: Session = Depends(get_db)):
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Campeão do Churrasco | A Arte da Brasa em Mogi Mirim</title>
+        <link rel="icon" type="image/png" href="/static/images/Favicon.png">
         
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
