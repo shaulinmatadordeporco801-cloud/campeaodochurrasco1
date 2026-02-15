@@ -1,3 +1,4 @@
+# Reset deploy trigger: 2026-02-15 03:22
 from fastapi import FastAPI, Depends, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -236,6 +237,42 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
           .glass-shimmer::after {{ content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent); transform: skewX(-25deg); animation: shimmer 4s infinite; }}
           .tab-content {{ display: none; }}
           .tab-content.active {{ display: block; }}
+          
+          /* Aurora Boreal Effect */
+          .aurora-container {{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 2s ease;
+            overflow: hidden;
+          }}
+          .dark .aurora-container {{ opacity: 0.15; }}
+          
+          .aurora-blur {{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+              radial-gradient(circle at 20% 30%, #2dd4bf 0%, transparent 40%),
+              radial-gradient(circle at 80% 20%, #3b82f6 0%, transparent 40%),
+              radial-gradient(circle at 50% 50%, #a855f7 0%, transparent 50%),
+              radial-gradient(circle at 40% 80%, #10b981 0%, transparent 40%);
+            filter: blur(80px);
+            animation: aurora-morph 15s infinite alternate ease-in-out;
+          }}
+
+          @keyframes aurora-morph {{
+            0% {{ transform: scale(1) translate(0, 0); opacity: 0.8; }}
+            33% {{ transform: scale(1.2) translate(10%, 5%); opacity: 1; }}
+            66% {{ transform: scale(0.9) translate(-5%, 10%); opacity: 0.7; }}
+            100% {{ transform: scale(1.1) translate(5%, -5%); opacity: 0.9; }}
+          }}
+          
           .dark .rich-black-bg {{ background-color: #0a0a0a; }}
           .dark .dark-text-color {{ color: #f3f4f6; }}
           .dark .nav-glass {{ background-color: rgba(15, 15, 15, 0.8); border-color: rgba(255, 255, 255, 0.05); }}
@@ -247,6 +284,12 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
         </script>
     </head>
     <body class="bg-rich-black dark:bg-neutral-950 text-dark-text dark:text-neutral-100 font-montserrat overflow-x-hidden selection:bg-brand-blue selection:text-white transition-colors duration-300">
+        
+        <!-- AURORA BOREAL BACKGROUND -->
+        <div class="aurora-container">
+            <div class="aurora-blur"></div>
+        </div>
+
         <nav class="fixed top-0 left-0 w-full z-[100] bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5 py-3 md:py-4 px-6 md:px-12 flex justify-between items-center shadow-sm transition-colors duration-300">
           <div class="flex items-center gap-3 group cursor-pointer relative z-[110]">
             {logo_sm}
