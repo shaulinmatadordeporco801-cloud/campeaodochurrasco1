@@ -8,13 +8,9 @@ from models import Base, Category, Product
 Base.metadata.create_all(bind=engine)
 
 from fastapi.staticfiles import StaticFiles
-from mangum import Mangum
 
 app = FastAPI(title="Campeão do Churrasco")
 app.mount("/static", StaticFiles(directory="."), name="static")
-
-# Netlify Lambda Handler
-handler = Mangum(app)
 
 def get_db():
     db = SessionLocal()
