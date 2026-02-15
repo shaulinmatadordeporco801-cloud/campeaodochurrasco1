@@ -77,7 +77,8 @@ def render_logo(size="md", classes=""):
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request, db: Session = Depends(get_db)):
     try:
-        categories = db.query(Category).all()
+        # Order categories by ID to maintain a consistent pyramid layout
+        categories = db.query(Category).order_by(Category.id.asc()).all()
         products = db.query(Product).all()
         
         # Pre-process data for the view
@@ -96,10 +97,12 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
             is_active = (cat.id == first_cat_id)
             btn_class = "bg-brand-blue text-white shadow-[0_5px_15px_rgba(0,144,255,0.2)]" if is_active else "text-dark-text/40 dark:text-neutral-400 hover:bg-brand-blue/10 hover:text-brand-blue"
             
-            # Pyramid layout widths for mobile
-            mobile_width = "w-[47%] md:w-auto"
+            # Pyramid layout widths for mobile (4 buttons: 2-1-1)
+            # Row 1: Espetinho & Bebidas | Row 2: Acompanhamentos | Row 3: Drinks
             if cat.name in ["Acompanhamentos", "Drinks"]:
-                mobile_width = "w-[96%] md:w-auto"
+                mobile_width = "w-full md:w-auto"
+            else:
+                mobile_width = "w-[calc(50%-6px)] md:w-auto"
                 
             tabs_btns_html += f"""
             <button onclick="switchTab({cat.id})" 
@@ -204,7 +207,8 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Campeão do Churrasco | A Arte da Brasa em Mogi Mirim</title>
-        <link rel="icon" type="image/png" href="/static/images/Favicon.png">
+        <!-- Version: 1.0.3 - Pyramid Build -->
+        <link rel="icon" type="image/png" href="/static/images/Favicon.png?v=1.0.3">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
