@@ -275,6 +275,11 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
           .dark .rich-black-bg {{ background-color: #0a0a0a; }}
           .dark .dark-text-color {{ color: #f3f4f6; }}
           .dark .nav-glass {{ background-color: rgba(15, 15, 15, 0.8); border-color: rgba(255, 255, 255, 0.05); }}
+          
+          /* Hide scrollbar for Chrome, Safari and Opera */
+          .no-scrollbar::-webkit-scrollbar {{ display: none; }}
+          /* Hide scrollbar for IE, Edge and Firefox */
+          .no-scrollbar {{ -ms-overflow-style: none; scrollbar-width: none; }}
         </style>
         <script>
             if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {{
@@ -345,7 +350,7 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
             <div class="container mx-auto px-4">
                 <div class="text-center mb-16">
                    <h2 class="font-bebas text-5xl md:text-8xl mb-10 text-dark-text dark:text-neutral-100 uppercase">Saboreie momentos em <span class="text-brand-blue">família.</span></h2>
-                    <div class="flex flex-wrap justify-center gap-2 bg-brand-blue/5 p-2 rounded-xl max-w-4xl mx-auto mb-12">
+                    <div class="flex flex-nowrap overflow-x-auto no-scrollbar justify-start md:justify-center gap-2 bg-brand-blue/5 p-2 rounded-xl max-w-4xl mx-auto mb-12 scroll-smooth">
                        {tabs_btns_html}
                     </div>
                 </div>
